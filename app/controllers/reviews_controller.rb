@@ -1,10 +1,12 @@
 class ReviewsController < ApplicationController
-    def index
-    @reviews = Reviews.all
+
+  before_action :find_restaurant
+  def index
+    @reviews = Review.all
   end
 
   def show
-    @review = set_review
+    @reviews = set_review
   end
 
   # GET /restaurants/new
@@ -14,9 +16,9 @@ class ReviewsController < ApplicationController
 
 
   def create
-    @review = Review.new(review_params)
+    @review = @restaurant.reviews.build(review_params)
     if @review.save
-      redirect_to restaurant_reviews_path(@reviews)
+      redirect_to restaurant_path(@restaurant)
     else
       render :new
     end
@@ -32,5 +34,9 @@ class ReviewsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
       params.require(:review).permit(:content, :rating)
+    end
+
+    def find_restaurant
+      @restaurant = Restaurant.find(params[:restaurant_id])
     end
 end
