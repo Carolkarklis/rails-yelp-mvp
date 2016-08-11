@@ -12,6 +12,12 @@
   </head>
 
   <body>
+    <%= render "shared/navbar" %>
     <%= yield %>
+    <!-- For inserting some analytics script (GA, Mixpanel..) -->
+    <%= render "shared/analytics" %>
+
+    <%= render "shared/footer" %>
+
   </body>
 </html>
